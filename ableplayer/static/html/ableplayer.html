@@ -1,5 +1,17 @@
+{{ js_template|safe }}
 <div class="ableplayer_block">
-<p>AblePlayerXBlock: count is now
-    <span class='count'>{self.count}</span> (click me to increment).
-</p>
+
+    <h1>Able Player Video Demo #5:<br/>Video player with interactive transcript, subtitles, and chapters</h1>
+
+    <video  data-able-player
+            id="video1"
+            preload="auto"
+            data-youtube-id="tnsB6YCHVXA"
+            data-youtube-desc-id="Ck2TdVMhWcU"
+            data-transcript-div="transcript"
+            data-chapters-div="chapters"
+            data-use-chapters-button="false"
+    >
+    </video>
+
 </div>

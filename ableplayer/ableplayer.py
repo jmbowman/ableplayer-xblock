@@ -5,9 +5,41 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Scope, Integer
 from xblock.fragment import Fragment
+from xblockutils.resources import ResourceLoader
+from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
 
+class ResourceMixin(XBlockWithSettingsMixin, ThemableXBlockMixin):
+    loader = ResourceLoader(__name__)
 
-class AblePlayerXBlock(XBlock):
+    block_settings_key = 'ableplayer-xblock'
+    default_theme_config = {
+        'package': 'ableplayer-xblock',
+        'locations': [
+            'public/ableplayer.min.css',
+            'public/ableplayer.min.js'
+        ]
+    }
+
+    # @staticmethod
+    # def resource_string(path):
+    #     """Handy helper for getting resources from our kit."""
+    #     data = pkg_resources.resource_string(__name__, path)
+    #     return data.decode("utf8")
+
+    # def create_fragment(self, context, template, css, js, js_init):
+    #     html = Template(
+    #         self.resource_string(template)).render(Context(context))
+    #     frag = Fragment(html)
+    #     frag.add_javascript_url(
+    #         self.runtime.local_resource_url(
+    #             self, 'public/js/vendor/handlebars.js'))
+    #     frag.add_css(self.resource_string(css))
+    #     frag.add_javascript(self.resource_string(js))
+    #     frag.initialize_js(js_init)
+    #     self.include_theme_files(frag)
+    #     return frag
+
+class AblePlayerXBlock(XBlock, ResourceMixin):
     """
     TO-DO: document what your XBlock does.
     """
@@ -32,6 +64,16 @@ class AblePlayerXBlock(XBlock):
         The primary view of the AblePlayerXBlock, shown to students
         when viewing courses.
         """
+        html = self.resource_string("static/html/ableplayer.html")
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("public/src/ableplayer.min.css"))
+        frag.add_javascript(self.resource_string("public/vendor/modernizr.custom.js"))
+        frag.add_javascript(self.resource_string("public/vendor/js.cookie.js"))
+        frag.add_javascript(self.resource_string("public/src/ableplayer.min.js"))
+        frag.initialize_js('AblePlayerXBlock')
+        return frag
+
+    def studio_view(self, context=None):
         html = self.resource_string("static/html/ableplayer.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/ableplayer.css"))
