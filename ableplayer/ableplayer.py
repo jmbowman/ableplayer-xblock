@@ -8,37 +8,6 @@ from xblock.fragment import Fragment
 from xblockutils.resources import ResourceLoader
 from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
 
-class ResourceMixin(XBlockWithSettingsMixin, ThemableXBlockMixin):
-    loader = ResourceLoader(__name__)
-
-    block_settings_key = 'ableplayer-xblock'
-    default_theme_config = {
-        'package': 'ableplayer-xblock',
-        'locations': [
-            'public/ableplayer.min.css',
-            'public/ableplayer.min.js'
-        ]
-    }
-
-    # @staticmethod
-    # def resource_string(path):
-    #     """Handy helper for getting resources from our kit."""
-    #     data = pkg_resources.resource_string(__name__, path)
-    #     return data.decode("utf8")
-
-    # def create_fragment(self, context, template, css, js, js_init):
-    #     html = Template(
-    #         self.resource_string(template)).render(Context(context))
-    #     frag = Fragment(html)
-    #     frag.add_javascript_url(
-    #         self.runtime.local_resource_url(
-    #             self, 'public/js/vendor/handlebars.js'))
-    #     frag.add_css(self.resource_string(css))
-    #     frag.add_javascript(self.resource_string(js))
-    #     frag.initialize_js(js_init)
-    #     self.include_theme_files(frag)
-    #     return frag
-
 class AblePlayerXBlock(XBlock, ResourceMixin):
     """
     TO-DO: document what your XBlock does.
@@ -58,14 +27,22 @@ class AblePlayerXBlock(XBlock, ResourceMixin):
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
+    def build_fragment(self, template_path):
+        """Build template fragment with the required assets"""
+        html = self.resource_string(template_path)
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("public/src/ableplayer.min.css"))
+        frag.add_javascript(self.resource_string("public/vendor/modernizr.custom.js"))
+        frag.add_javascript(self.resource_string("public/vendor/js.cookie.js"))
+        frag.add_javascript(self.resource_string("public/src/ableplayer.min.js"))
+        return frag
+
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
         The primary view of the AblePlayerXBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/ableplayer.html")
-        frag = Fragment(html.format(self=self))
         # frag.add_resource(
         #     self.resource_string('public/src/button-icons/fonts/able.eot'),
         #     'application/vnd.ms-fontobject'
@@ -82,21 +59,10 @@ class AblePlayerXBlock(XBlock, ResourceMixin):
         #     self.resource_string('public/src/button-icons/fonts/able.woff'),
         #     'application/font-woff'
         # )
-
-        frag.add_css(self.resource_string("public/src/ableplayer.min.css"))
-        frag.add_javascript(self.resource_string("public/vendor/modernizr.custom.js"))
-        frag.add_javascript(self.resource_string("public/vendor/js.cookie.js"))
-        frag.add_javascript(self.resource_string("public/src/ableplayer.min.js"))
-
-        return frag
+        return build_fragment('static/html/ableplayer.html')
 
     def studio_view(self, context=None):
-        html = self.resource_string("static/html/ableplayer.html")
-        frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/ableplayer.css"))
-        frag.add_javascript(self.resource_string("static/js/src/ableplayer.js"))
-        frag.initialize_js('AblePlayerXBlock')
-        return frag
+        return build_fragment('static/html/ableplayer_edit.html')
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
