@@ -66,11 +66,28 @@ class AblePlayerXBlock(XBlock, ResourceMixin):
         """
         html = self.resource_string("static/html/ableplayer.html")
         frag = Fragment(html.format(self=self))
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.eot'),
+        #     'application/vnd.ms-fontobject'
+        # )
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.svg'),
+        #     'image/svg+xml'
+        # )
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.ttf'),
+        #     'application/x-font-ttf',
+        # )
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.woff'),
+        #     'application/font-woff'
+        # )
+
         frag.add_css(self.resource_string("public/src/ableplayer.min.css"))
         frag.add_javascript(self.resource_string("public/vendor/modernizr.custom.js"))
         frag.add_javascript(self.resource_string("public/vendor/js.cookie.js"))
         frag.add_javascript(self.resource_string("public/src/ableplayer.min.js"))
-        frag.initialize_js('AblePlayerXBlock')
+
         return frag
 
     def studio_view(self, context=None):
