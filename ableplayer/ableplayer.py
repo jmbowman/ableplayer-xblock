@@ -6,7 +6,6 @@ from xblock.core import XBlock
 from xblock.fields import Scope, Integer
 from xblock.fragment import Fragment
 
-
 class AblePlayerXBlock(XBlock):
     """
     TO-DO: document what your XBlock does.
@@ -26,18 +25,42 @@ class AblePlayerXBlock(XBlock):
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
+    def build_fragment(self, template_path):
+        """Build template fragment with the required assets"""
+        html = self.resource_string(template_path)
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("public/src/ableplayer.min.css"))
+        frag.add_javascript(self.resource_string("public/vendor/modernizr.custom.js"))
+        frag.add_javascript(self.resource_string("public/vendor/js.cookie.js"))
+        frag.add_javascript(self.resource_string("public/src/ableplayer.min.js"))
+        return frag
+
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
         The primary view of the AblePlayerXBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/ableplayer.html")
-        frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/ableplayer.css"))
-        frag.add_javascript(self.resource_string("static/js/src/ableplayer.js"))
-        frag.initialize_js('AblePlayerXBlock')
-        return frag
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.eot'),
+        #     'application/vnd.ms-fontobject'
+        # )
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.svg'),
+        #     'image/svg+xml'
+        # )
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.ttf'),
+        #     'application/x-font-ttf',
+        # )
+        # frag.add_resource(
+        #     self.resource_string('public/src/button-icons/fonts/able.woff'),
+        #     'application/font-woff'
+        # )
+        return self.build_fragment('public/html/ableplayer.html')
+
+    def studio_view(self, context=None):
+        return self.build_fragment('public/html/ableplayer_edit.html')
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
