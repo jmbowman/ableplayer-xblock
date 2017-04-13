@@ -5,10 +5,8 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Scope, Integer
 from xblock.fragment import Fragment
-from xblockutils.resources import ResourceLoader
-from xblockutils.settings import XBlockWithSettingsMixin, ThemableXBlockMixin
 
-class AblePlayerXBlock(XBlock, ResourceMixin):
+class AblePlayerXBlock(XBlock):
     """
     TO-DO: document what your XBlock does.
     """
@@ -59,10 +57,10 @@ class AblePlayerXBlock(XBlock, ResourceMixin):
         #     self.resource_string('public/src/button-icons/fonts/able.woff'),
         #     'application/font-woff'
         # )
-        return build_fragment('public/html/ableplayer.html')
+        return self.build_fragment('public/html/ableplayer.html')
 
     def studio_view(self, context=None):
-        return build_fragment('public/html/ableplayer_edit.html')
+        return self.build_fragment('public/html/ableplayer_edit.html')
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
