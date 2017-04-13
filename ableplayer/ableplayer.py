@@ -59,10 +59,10 @@ class AblePlayerXBlock(XBlock, ResourceMixin):
         #     self.resource_string('public/src/button-icons/fonts/able.woff'),
         #     'application/font-woff'
         # )
-        return build_fragment('static/html/ableplayer.html')
+        return build_fragment('public/html/ableplayer.html')
 
     def studio_view(self, context=None):
-        return build_fragment('static/html/ableplayer_edit.html')
+        return build_fragment('public/html/ableplayer_edit.html')
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
