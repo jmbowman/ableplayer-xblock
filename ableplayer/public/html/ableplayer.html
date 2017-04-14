@@ -3,14 +3,18 @@
     <h1>{{title}}</h1>
 
     <video id="video1" preload="auto" width="480" height="360" data-able-player>
-        <source type="video/mp4" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/EDXABVID2014-V070900.mp4"/>
+        <source type="video/mp4" src="{{filepath}}"/>
+        {% for track in description_files %}
+            <track kind="descriptions" src="{{track.filepath}}" srclang="{{track.language}}">
+        {% endfor %}
 
-        <track kind="descriptions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-AD-EN.vtt" srclang="en">
+        {% for track in caption_files %}
+            <track kind="captions" src="{{track.filepath}}" srclang="{{track.language}}" label="{{track.language}}">
+        {% endfor %}
 
-        <track kind="captions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-EN.vtt" srclang="en" label="English">
-        <track kind="captions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-ES.vtt" srclang="es" label="Español">
-
-        <track kind="chapters" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-Chapters.vtt" srclang="en"/>
+        {% for track in chapter_files %}
+            <track kind="chapters" src="{{track.filepath}}" srclang="{{track.language}}">
+        {% endfor %}
     </video>
 
 </div>

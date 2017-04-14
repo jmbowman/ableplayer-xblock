@@ -51,23 +51,6 @@ class AblePlayerXBlock(XBlock):
         The primary view of the AblePlayerXBlock, shown to students
         when viewing courses.
         """
-        # frag.add_resource(
-        #     self.resource_string('public/src/button-icons/fonts/able.eot'),
-        #     'application/vnd.ms-fontobject'
-        # )
-        # frag.add_resource(
-        #     self.resource_string('public/src/button-icons/fonts/able.svg'),
-        #     'image/svg+xml'
-        # )
-        # frag.add_resource(
-        #     self.resource_string('public/src/button-icons/fonts/able.ttf'),
-        #     'application/x-font-ttf',
-        # )
-        # frag.add_resource(
-        #     self.resource_string('public/src/button-icons/fonts/able.woff'),
-        #     'application/font-woff'
-        # )
-
         return self.build_fragment(context, 'public/html/ableplayer.html')
 
     def studio_view(self, context=None):
