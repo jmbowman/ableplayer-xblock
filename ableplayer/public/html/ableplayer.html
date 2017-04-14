@@ -1,22 +1,33 @@
 <div class="ableplayer_block">
 
-    <h1>Able Player Video Demo #5:<br/>Video player with interactive transcript, subtitles, and chapters</h1>
+    <h1>{{title}}</h1>
 
-    <video id="video1" preload="auto" width="480" height="360" poster="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa.jpg" data-able-player>
-        <source type="video/webm" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa.webm?raw=true"/>
-        <source type="video/mp4" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa.mp4?raw=true"/>
+    <video id="video1" preload="auto" width="480" height="360" data-able-player>
+        <source type="video/mp4" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/EDXABVID2014-V070900.mp4"/>
 
-        <track kind="captions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_en.vtt"/>
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_en.vtt"/>
+        <track kind="descriptions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-AD-EN.vtt" srclang="en">
 
-        <track kind="subtitles" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_es.vtt" srclang="es" label="Espanol">
-        <track kind="captions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_en.vtt" srclang="en" label="English">
-        <track kind="captions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_ja.vtt" srclang="ja" label="日本語"/>
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_en.vtt" srclang="en">
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_es.vtt" srclang="es">
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_ja.vtt" srclang="ja"/>
-        <track kind="chapters" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_chapters_en.vtt" srclang="en"/>
-        <track kind="chapters" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_chapters_es.vtt" srclang="es"/>
+        <track kind="captions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-EN.vtt" srclang="en" label="English">
+        <track kind="captions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-ES.vtt" srclang="es" label="Español">
+
+        <track kind="chapters" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-Chapters.vtt" srclang="en"/>
     </video>
 
 </div>
+
+<!-- <div class="ableplayer_block">
+
+    <h1>Able Player Video Demo #5:<br/>Video player with interactive transcript, subtitles, and chapters</h1>
+
+    <video id="video1" preload="auto" width="480" height="360" data-able-player>
+        <source type="video/mp4" src="/static/EDXCOMMXT115-G200200_MB2.mp4"/>
+
+        <track kind="descriptions" src="/static/GreetingsFromAnant-AD-EN.vtt"/>
+
+        <track kind="captions" src="/static/GreetingsFromAnant-EN.vtt" srclang="en" label="English">
+        <track kind="captions" src="/static/GreetingsFromAnant-ES.vtt" srclang="es" label="Español">
+
+        <track kind="chapters" src="/static/GreetingsFromAnant-Chapters.vtt" srclang="en"/>
+    </video>
+
+</div> -->

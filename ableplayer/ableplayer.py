@@ -2,33 +2,32 @@
 
 import pkg_resources
 
+from django.template import Template, Context
 from xblock.core import XBlock
-from xblock.fields import Scope, Integer
+from xblock.fields import Scope, String, Dict
 from xblock.fragment import Fragment
 
 class AblePlayerXBlock(XBlock):
     """
-    TO-DO: document what your XBlock does.
+    Allows placement of a video accompanied by optional captions, chapters,
+    and descriptive text.
     """
-
-    # Fields are defined on the class.  You can access them in your code as
-    # self.<fieldname>.
-
-    # TO-DO: delete count, and define your own fields.
-    count = Integer(
-        default=0, scope=Scope.user_state,
-        help="A simple counter, to show something happening",
-    )
+    title = String(default='Able Player Video', help="Title of your video")
+    filepath = String(default=None, help="Path to your MP4 video file")
+    description_paths = Dict(default=None, help="Descriptive text VTT files")
+    caption_paths = Dict(default=None, help="Caption VTT files")
+    chapter_paths = Dict(default=None, help="Chapter VTT files")
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
-    def build_fragment(self, template_path):
+    def build_fragment(self, context, template_path):
         """Build template fragment with the required assets"""
-        html = self.resource_string(template_path)
-        frag = Fragment(html.format(self=self))
+        html = Template(
+            self.resource_string(template_path)).render(Context(context))
+        frag = Fragment(html)
         frag.add_css(self.resource_string("public/src/ableplayer.min.css"))
         frag.add_javascript(self.resource_string("public/vendor/modernizr.custom.js"))
         frag.add_javascript(self.resource_string("public/vendor/js.cookie.js"))
@@ -57,10 +56,21 @@ class AblePlayerXBlock(XBlock):
         #     self.resource_string('public/src/button-icons/fonts/able.woff'),
         #     'application/font-woff'
         # )
-        return self.build_fragment('public/html/ableplayer.html')
+        if not context:
+            context = {
+                'title': self.title,
+                'filepath': self.filepath,
+                'description_paths': self.description_paths,
+                'caption_paths': self.caption_paths,
+                'chapter_paths': self.chapter_paths
+            }
+
+        return self.build_fragment(context, 'public/html/ableplayer.html')
 
     def studio_view(self, context=None):
-        return self.build_fragment('public/html/ableplayer_edit.html')
+        frag = self.build_fragment('public/html/ableplayer_edit.html')
+        frag.add_javascript(self.resource_string("public/ableplayer_edit.js"))
+        return frag
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
