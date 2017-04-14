@@ -4,7 +4,7 @@ import pkg_resources
 
 from django.template import Template, Context
 from xblock.core import XBlock
-from xblock.fields import Scope, String, Dict
+from xblock.fields import Scope, String, List
 from xblock.fragment import Fragment
 
 class AblePlayerXBlock(XBlock):
@@ -14,9 +14,9 @@ class AblePlayerXBlock(XBlock):
     """
     title = String(default='Able Player Video', help="Title of your video")
     filepath = String(default=None, help="Path to your MP4 video file")
-    description_paths = Dict(default=None, help="Descriptive text VTT files")
-    caption_paths = Dict(default=None, help="Caption VTT files")
-    chapter_paths = Dict(default=None, help="Chapter VTT files")
+    description_files = List(default=None, help="Descriptive text VTT files")
+    caption_files = List(default=None, help="Caption VTT files")
+    chapter_files = List(default=None, help="Chapter VTT files")
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -25,6 +25,17 @@ class AblePlayerXBlock(XBlock):
 
     def build_fragment(self, context, template_path):
         """Build template fragment with the required assets"""
+        if not context:
+            context = {}
+
+        context.update({
+            'title': self.title,
+            'filepath': self.filepath,
+            'description_files': self.description_files,
+            'caption_files': self.caption_files,
+            'chapter_files': self.chapter_files
+        })
+
         html = Template(
             self.resource_string(template_path)).render(Context(context))
         frag = Fragment(html)
@@ -56,34 +67,35 @@ class AblePlayerXBlock(XBlock):
         #     self.resource_string('public/src/button-icons/fonts/able.woff'),
         #     'application/font-woff'
         # )
-        if not context:
-            context = {
-                'title': self.title,
-                'filepath': self.filepath,
-                'description_paths': self.description_paths,
-                'caption_paths': self.caption_paths,
-                'chapter_paths': self.chapter_paths
-            }
 
-        return self.build_fragment(context, 'public/html/ableplayer.html')
-
-    def studio_view(self, context=None):
-        frag = self.build_fragment('public/html/ableplayer_edit.html')
-        frag.add_javascript(self.resource_string("public/ableplayer_edit.js"))
+        # return self.build_fragment(context, 'public/html/ableplayer.html')
+        frag = self.build_fragment(context, 'public/html/ableplayer_edit.html')
+        frag.add_javascript(self.resource_string('public/ableplayer_edit.js'))
+        frag.initialize_js('AblePlayerEdit')
         return frag
 
-    # TO-DO: change this handler to perform your own actions.  You may need more
-    # than one handler, or you may not need any handlers at all.
+    def studio_view(self, context=None):
+        frag = self.build_fragment(context, 'public/html/ableplayer_edit.html')
+        frag.add_javascript(self.resource_string('public/ableplayer_edit.js'))
+        frag.initialize_js('AblePlayerEdit')
+        return frag
+
     @XBlock.json_handler
-    def increment_count(self, data, suffix=''):
+    def edit_video_fields(self, data, suffix=''):
         """
         An example handler, which increments the data.
         """
-        # Just to show data coming in...
-        assert data['hello'] == 'world'
 
-        self.count += 1
-        return {"count": self.count}
+        self.title = data['title']
+        self.filepath = data['filepath']
+        if 'caption_files' in data:
+            self.caption_files = data['caption_files']
+        if 'description_files' in data:
+            self.description_files = data['description_files']
+        if 'chapter_files' in data:
+            self.chapter_files = data['chapter_files']
+
+        return {"response": 'success'}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

@@ -1,22 +1,79 @@
-<div class="ableplayer_block">
+<div class="ableplayer_block ableplayer-edit">
 
-    <h1>Able Player Video Demo #5:<br/>Video player with interactive transcript, subtitles, and chapters</h1>
+    <form class="ableplayer-video-meta" name="ableplayer-video-meta">
+        <label>
+            Video Title
+            <input type="text" class="title" name="title" value="{{title}}" />
+        </label>
 
-    <video id="video1" preload="auto" width="480" height="360" poster="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa.jpg" data-able-player>
-        <source type="video/webm" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa.webm?raw=true"/>
-        <source type="video/mp4" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa.mp4?raw=true"/>
+        <label>
+            Video Filepath
+            <input type="text" class="filepath" name="filepath" value="{{filepath}}" />
+        </label>
 
-        <track kind="captions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_en.vtt"/>
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_en.vtt"/>
+        <div class="text-track-inputs" data-input-type="caption">
+            <div class="input-container">
+            {% for file in caption_files %}
+                <div class="input-wrapper">
+                    <label>
+                        Caption Filepath
+                        <input type="text" class="input-filepath" value="{{file.filepath}}" name="caption_{{forloop.counter0}}_filepath">
+                    </label>
+                    <label>
+                        Caption Language
+                        <input type="text" class="input-language" value="{{file.language}}" name="caption_{{forloop.counter0}}_language">
+                    </label>
+                </div>
+            {% endfor %}
+            </div>
+            <button class="add-input">Add captions file...</button>
+        </div>
+        <div class="text-track-inputs" data-input-type="description">
+            <div class="input-container">
+            {% for file in description_files %}
+                <div class="input-wrapper">
+                    <label>
+                        Description Filepath
+                        <input type="text" class="input-filepath" value="{{file.filepath}}" name="description_{{forloop.counter0}}_filepath">
+                    </label>
+                    <label>
+                        Description Language
+                        <input type="text" class="input-language" value="{{file.language}}" name="description_{{forloop.counter0}}_language">
+                    </label>
+                </div>
+            {% endfor %}
+            </div>
+            <button class="add-input">Add descriptive text file...</button>
+        </div>
+        <div class="text-track-inputs" data-input-type="chapter">
+            <div class="input-container">
+            {% for file in chapter_files %}
+                <div class="input-wrapper">
+                    <label>
+                        Chapter Filepath
+                        <input type="text" class="input-filepath" value="{{file.filepath}}" name="chapter_{{forloop.counter0}}_filepath">
+                    </label>
+                    <label>
+                        Chapter Language
+                        <input type="text" class="input-language" value="{{file.language}}" name="chapter_{{forloop.counter0}}_language">
+                    </label>
+                </div>
+            {% endfor %}
+            </div>
+            <button class="add-input">Add chapters file...</button>
+        </div>
 
-        <track kind="subtitles" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_es.vtt" srclang="es" label="Espanol">
-        <track kind="captions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_en.vtt" srclang="en" label="English">
-        <track kind="captions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_captions_ja.vtt" srclang="ja" label="日本語"/>
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_en.vtt" srclang="en">
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_es.vtt" srclang="es">
-        <track kind="descriptions" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_description_ja.vtt" srclang="ja"/>
-        <track kind="chapters" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_chapters_en.vtt" srclang="en"/>
-        <track kind="chapters" src="https://raw.githubusercontent.com/ableplayer/ableplayer/master/media/wwa_chapters_es.vtt" srclang="es"/>
-    </video>
+        <input type="submit" class="save-btn" value="Save Changes" />
+    </form>
+<!--     <video id="video1" preload="auto" width="480" height="360" data-able-player>
+        <source type="video/mp4" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/EDXABVID2014-V070900.mp4"/>
+
+        <track kind="descriptions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-AD-EN.vtt" srclang="en">
+
+        <track kind="captions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-EN.vtt" srclang="en" label="English">
+        <track kind="captions" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-ES.vtt" srclang="es" label="Español">
+
+        <track kind="chapters" src="https://raw.githubusercontent.com/jmbowman/ableplayer-xblock/master/ableplayer/assets/GreetingsFromAnant-Chapters.vtt" srclang="en"/>
+    </video> -->
 
 </div>
