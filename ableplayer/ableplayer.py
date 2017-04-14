@@ -68,11 +68,7 @@ class AblePlayerXBlock(XBlock):
         #     'application/font-woff'
         # )
 
-        # return self.build_fragment(context, 'public/html/ableplayer.html')
-        frag = self.build_fragment(context, 'public/html/ableplayer_edit.html')
-        frag.add_javascript(self.resource_string('public/ableplayer_edit.js'))
-        frag.initialize_js('AblePlayerEdit')
-        return frag
+        return self.build_fragment(context, 'public/html/ableplayer.html')
 
     def studio_view(self, context=None):
         frag = self.build_fragment(context, 'public/html/ableplayer_edit.html')
